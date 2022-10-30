@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <style>
+      .image-thumbail{
+          height: 200px
+      }
+    </style>
+    <title>ocr-app</title>
+</head>
+<body>
+  <section class="jumbotron text-center pb-3 mb-3 bg-white pt-5">
+    <div class="container">
+      <h1 class="jumbotron-heading">Распознавание текста по изображению</h1>
+      <p class="lead text-muted">Для поиска распознанного текста используйте поле для поиска. Для удаления, добавления изображений - используйте соотвествующие кнопки.</p>
+      <p>
+        <form method="GET">
+          <input type='text' class="form-control mb-3" placeholder="Поиск по тексту" aria-label="Search" name='search-area' value="{{search_input}}">
+      </form>
+    
+      <a href="{% url 'add_photo' %}" class="btn btn-primary mt-2">Добавить изображение</a>
+
+      <a href="{% url 'make_prediction' %}" class="btn btn-outline-primary mt-2">Распознать текст</a>
+
+      <a href="{% url 'delete_all_images' %}" class="btn btn-outline-secondary mt-2">Удалить все изображения</a>
+      </p>
+    </div>
+    </section>
+    {% if images|length > 0 %}
+    <section class="bg-light pt-5 pb">
+    {% else %}
+    <section class="bg-white pt-5 pb">
+    {% endif %}
+    <div class="card-columns px-5">
+      <div class="container">
+          {% for image in images %}
+            <div class="card mb-4 box-shadow ">
+              <img class="card-img-top"
+                  src="{{image.image.url}}" 
+                  alt="Card image cap">
+              <div class="card-body">
+                <p class="card-text">{{image.recognized_text|slice:20}}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'photo' image.pk %}" class="btn btn-sm btn-outline-primary">Посмотреть</a>
+                  <small class="text-muted">{{image.date}}</small>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </section>
+    <footer class="text-center text-white" style="background-color: rgb(111, 116, 121);">
+      <!-- Grid container -->
+      <div class="container-fluid p-2 " style="background-color: rgb(144, 148, 153); width: 100%;"><a href="{% url 'gallery' %}" style="color: whitesmoke;">Вернуться в начало</a></div>
+      <!-- Grid container -->
+    
+      <!-- Copyright -->
+      <div class="text-center p-2 ">
+        © 2022 Copyright:
+        <a class="text-white" href="https://mdbootstrap.com/">OCR-app.com</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
